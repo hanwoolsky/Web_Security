@@ -1,0 +1,40 @@
+.posting{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.posting_title{
+    text-align: center;
+    width: 700px;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    line-height: 50px;
+}
+.posting_contents{
+    text-align: center;
+    width: 700px;
+    height: 500px;
+    font-size: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border: none;
+    background-color: white;
+}
+.upload{
+    text-align: center;
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.writeBtn{
+    background-color: #1E8BF0;
+    border: none;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}

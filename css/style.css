@@ -1,0 +1,16 @@
+@import "reset.css";
+@import "screens/login.css";
+@import "screens/signup.css";
+@import "screens/addfunc.css";
+@import "components/searchForm.css";
+@import "components/writeForm.css";
+
+body{
+    background-color: #1e8af08c;
+}
+
+#test{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 40px;
+}
