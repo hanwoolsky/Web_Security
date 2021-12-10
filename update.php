@@ -23,11 +23,12 @@
 </head>
 <body>
     <div class = "column">
-        <form action = "board_update.php" method = "post">
+        <form action = "board_update.php" method = "post" enctype="multipart/form-data">
             <div class = "posting">
                 <input name = "id" type = "hidden" value = "<?=$id?>"/>
                 <input class = "posting_title" name = "update_title" type = "text" value = "<?=$title?>" />
                 <textarea class = "posting_contents" name = "update_body"><?=$content?></textarea>
+                <input class = "upload" name = "upload_file" type = "file" accept = "image/png, image/jpeg"/>
                 <input class = "writeBtn" type = "submit" value = "update">
             </div>
         </form>

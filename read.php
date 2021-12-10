@@ -24,6 +24,7 @@
                     $title = $row['title'];
                     $content = $row['content'];
                     $likes_count = $row['likes_count'];
+                    $file_name = $row['file'];
 
                     if(isset($_GET['view'])){
                         $view_sql = "UPDATE board set views = views + 1 where id = {$id}";
@@ -55,15 +56,27 @@
                         <span class = "likes_count"><?=$likes_count?></span>
                     </div>
             <?php
-                }          
+                }
+                $path = "./files/$username/$file_name";
+                if(file_exists($path)){
             ?>
-            <button class = "writeBtn" onclick = "location.href = 'board.php'">게시판</button>
+                    <div class = "file_links">
+                        <a href="http://localhost/web_dev/files/<?=$username?>/<?=$file_name?>" target="_blank">View</a>
+                        <a href="./files/<?=$username?>/<?=$file_name?>" download = "<?=$file_name?>">Download</a>
+                        <a href="file_delete.php?id=<?=$id?>">Delete</a>
+                    </div>
             <?php
-                if ($login_user == $username) {
-                    echo "<button class = 'writeBtn' onclick = \"location.href = 'update.php?id=$id'\">수정</button>";
-                    echo "<button class = 'writeBtn' onclick = \"location.href = 'board_delete.php?id=$id'\">삭제</button>";
                 }
             ?>
+            <div class = "btns">
+                <button class = "writeBtn" onclick = "location.href = 'board.php'">게시판</button>
+                <?php
+                    if ($login_user == $username) {
+                        echo "<button class = 'writeBtn' onclick = \"location.href = 'update.php?id=$id'\">수정</button>";
+                        echo "<button class = 'writeBtn' onclick = \"location.href = 'board_delete.php?id=$id'\">삭제</button>";
+                    }
+                ?>
+            </div>
         </div>
     </div>
     <script

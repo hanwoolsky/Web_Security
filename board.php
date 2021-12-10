@@ -3,9 +3,14 @@
         if(isset($_POST['board_result'])){
             $find = $_POST['board_result'];
             $column = $_POST['option_val'];
+            $start_date = $_POST['date_from'];
+            $end_date = $_POST['date_to'];
 
             $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-            $sql = "SELECT * FROM board where $column like '%$find%';";
+            if($start_date && $end_date){
+                $sql = "SELECT * FROM board where $column like '%$find%' and date between '$start_date' and '$end_date';";
+            }
+            else $sql = "SELECT * FROM board where $column like '%$find%';";
             $result = mysqli_query($conn, $sql);
 
             if(mysqli_num_rows($result) > 0){
@@ -33,13 +38,14 @@
         <div id = "search">
             <form method = "post">
                 <select name = "option_val">
-                    <option value = "username">이름</option>
+                    <option value = "username">작성자</option>
                     <option value = "title">제목</option>
                     <option value = "content">내용</option>
-                    <option value = "date">날짜</option>
                 </select>
                 <input id = "search_addr" name = "board_result" type = "text" placeholder="Search" />
                 <input type = "submit" name = "board_search" value = "🔍" id = "search_btn" />
+                <i class="far fa-calendar-alt"></i><input type = "date" name ="date_from" />
+                <i class="far fa-calendar-alt"></i><input type = "date" name = "date_to" />
             </form>
         </div>
         <div>
@@ -87,7 +93,7 @@
             </table>
         </div>
         <button class = "writeBtn" onclick = "location.href = 'write.php'">글쓰기</button>
-        <div class = "pagination">
+        <div class = "paginations">
             <?php
                 $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
                 $sql = "SELECT * FROM board;";
@@ -99,11 +105,15 @@
                 <form method = "post">
                     <?php
                         for($i = 1; $i <= $page_num; $i = $i+1){
-                            echo "<input type = 'submit' name = 'page' value = '$i'/>";
+                            echo "<input type = 'submit' class = 'pagination' name = 'page' value = '$i'/>";
                         }
                     ?>
                 </form>
         </div>
     </div>
+    <script
+        src="https://kit.fontawesome.com/6478f529f2.js"
+        crossorigin="anonymous"
+    ></script>
 </body>
 </html>

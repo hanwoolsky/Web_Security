@@ -2,6 +2,7 @@
 @import "screens/login.css";
 @import "screens/signup.css";
 @import "screens/addfunc.css";
+@import "screens/board.css";
 @import "components/searchForm.css";
 @import "components/writeForm.css";
 

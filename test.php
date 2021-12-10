@@ -45,8 +45,23 @@
                 if(isset($_GET['board_result'])){
                     echo "<div id = 'test'>".$_GET['board_result']."는 존재하지 않습니다.</div>";
                 }
-            
             ?>
+        </div>
+        <div style = "height: 100px"></div>
+        <div id = "login-form">
+            <div class = "head">Log In</div>
+            <form action = "login.php" method = "post">
+                <div class = "hori">
+                    <i class="far fa-user fa-2x"></i>
+                    <input name = "id" type = "text" placeholder="Email" id = "login-id" />
+                </div>
+                <div class = "hori">
+                    <i class="fas fa-lock fa-2x"></i>
+                    <input name = "pw" type = "password" placeholder="Password" id = "login-pw" />
+                </div>
+                <div class = "hori"><input type = "submit" value = "Log In" id = "login-btn" /></div>
+            </form>
+            <button id = "signup-btn" onclick = "location.href = 'signup.html'">Sign up</button>
         </div>
     </div>
 </body>

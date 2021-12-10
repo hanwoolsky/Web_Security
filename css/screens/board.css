@@ -1,0 +1,49 @@
+.btns{
+    display: flex;
+    width: 400px;
+    justify-content: space-around;
+}
+
+.file_links{
+    display: flex;
+    width: 300px;
+    justify-content: space-around;
+    font-size: 20px;
+    color: #1E8BF0;
+    background-color: white;
+    height: 30px;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #1E8BF0;
+}
+
+.file_links > a:hover{
+    color: red;
+}
+
+.paginations{
+    display: flex;
+    width: 200px;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.pagination{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: black;
+    background-color: white;
+    border: none;
+}
+
+.fa-calendar-alt{
+    color: #1E8BF0;
+    font-size: 25px;
+    margin: 0px 5px;
+}
+
+#search input[type = "date"]{
+    width: 50px;
+    height: 20px;
+}

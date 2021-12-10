@@ -16,6 +16,7 @@
         else if (isset($_SESSION['id'])){
             echo "<h2>Welcome {$_SESSION['id']}!! This is Main Page.</h2>";
             echo "<button id = 'addr-btn' onclick = \"location.href = 'address.php'\"}>주소 검색</button>";
+            echo "<button id = 'addr-btn' onclick = \"location.href = 'mypage.php'\"}>마이페이지</button>";
             echo "<button id = 'signup-btn' onclick = \"location.href = 'board.php'\"}>게시판</button>";
     ?>
     <button onClick = "document.location.href = 'mainpage.php?session=true';">Logout</button>
