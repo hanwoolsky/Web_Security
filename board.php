@@ -1,12 +1,12 @@
 <?php
     function board(){
         if(isset($_POST['board_result'])){
-            $find = $_POST['board_result'];
-            $column = $_POST['option_val'];
-            $start_date = $_POST['date_from'];
-            $end_date = $_POST['date_to'];
-
             $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+            $find = mysqli_real_escape_string($conn, $_POST['board_result']);
+            $column = mysqli_real_escape_string($conn, $_POST['option_val']);
+            $start_date = mysqli_real_escape_string($conn, $_POST['date_from']);
+            $end_date = mysqli_real_escape_string($conn, $_POST['date_to']);
+
             if($start_date && $end_date){
                 $sql = "SELECT * FROM board where $column like '%$find%' and date between '$start_date' and '$end_date';";
             }

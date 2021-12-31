@@ -1,10 +1,10 @@
 <?php
     if(isset($_POST['signupid']) && isset($_POST['signuppw'])){
-        $username = $_POST['signupid'];
-        $password = $_POST['signuppw'];
+        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+        $username = mysqli_real_escape_string($conn, $_POST['signupid']);
+        $password = mysqli_real_escape_string($conn, $_POST['signuppw']);
 
         if ($username != NULL && $password != NULL){
-            $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
             $sql = "INSERT INTO login (login_id, login_pw) VALUES ('$username', '$password');";
             
             if($result = mysqli_query($conn, $sql)){

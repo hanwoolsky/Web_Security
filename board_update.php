@@ -1,11 +1,11 @@
 <?php
     if(isset($_POST['update_title']) && isset($_POST['update_body']) && isset($_POST['id']) && isset($_POST['update_title']) != NULL && isset($_POST['update_body']) != NULL && isset($_POST['id']) != NULL){
-        $id = $_POST['id'];
+        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+        $id = mysqli_real_escape_string($conn, $_POST['id']);
 
         session_start();
         if($_SESSION['id']) $username = $_SESSION['id'];
 
-        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
         $title = mysqli_real_escape_string($conn, $_POST['update_title']);
         $content = mysqli_real_escape_string($conn, $_POST['update_body']);
 

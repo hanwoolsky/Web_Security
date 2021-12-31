@@ -14,11 +14,11 @@
         }else{
             $password = $_POST['password'];
         }
-        $sql2 = "INSERT INTO qna (title, content, password) VALUES ('$title', '$content', '$password');";
+        $sql2 = "INSERT INTO qna (username, title, content, password) VALUES ('$username', '$title', '$content', '$password');";
 
         if($result2 = mysqli_query($conn, $sql2)){
             echo "<script>alert('글 작성에 성공하셨습니다!')</script>";
-            echo "<script>window.location.href='qna.php';</script>";
+            echo "<script>window.location.href='qna_board.php';</script>";
         } else{
             echo mysqli_error($conn);
         }

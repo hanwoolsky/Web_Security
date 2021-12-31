@@ -1,9 +1,9 @@
 <?php
     function print_result(){
         if(isset($_POST['addr']) && $_POST['addr'] != NULL){
-            $addrs = $_POST['addr'];
-
             $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+            $addrs = mysqli_real_escape_string($conn, $_POST['addr']);
+
             $sql = "SELECT * FROM address where road_name like '%$addrs%';";
             $result = mysqli_query($conn, $sql);
             

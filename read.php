@@ -15,7 +15,7 @@
         <div class = "posting">
             <?php
                 if(isset($_GET['id'])){
-                    $id = $_GET['id'];
+                    $id = mysqli_real_escape_string($conn, $_GET['id']);
                     $sql = "SELECT * FROM board where id = {$id}";
                     $result = mysqli_query($conn, $sql);
 

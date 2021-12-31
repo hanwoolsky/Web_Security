@@ -1,19 +1,19 @@
 <?php
-    $cur_pw = $_POST['current_pw'];
+    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+    $cur_pw = mysqli_real_escape_string($conn, $_POST['current_pw']);
     session_start();
     $id = $_SESSION['id'];
 
-    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
     $login_sql = "SELECT * FROM login where login_id = '$id' and login_pw = '$cur_pw';";
     if($result = mysqli_fetch_array(mysqli_query($conn, $login_sql))){
         if($_POST['id'] != NULL){
-            $new_id = $_POST['id'];
+            $new_id = mysqli_real_escape_string($conn, $_POST['id']);
         }else{
             $new_id = $id;
         }
 
         if($_POST['birthday'] != NULL){
-            $new_birthday = $_POST['birthday'];
+            $new_birthday = mysqli_real_escape_string($conn, $_POST['birthday']);
         } else{
             $sql = "SELECT birthday FROM personal_info where login_id = '$id'";
             $row = mysqli_fetch_array(mysqli_query($conn, $sql));
@@ -21,7 +21,7 @@
         }
 
         if($_POST['pw'] != NULL){
-            $new_pw = $_POST['pw'];
+            $new_pw = mysqli_real_escape_string($conn, $_POST['pw']);
         }else{
             $sql = "SELECT login_pw FROM login where login_id = '$id'";
             $row = mysqli_fetch_array(mysqli_query($conn, $sql));
@@ -32,7 +32,7 @@
         $update_sql2 = "UPDATE login SET login_pw = '$new_pw' where login_id = '$id';";
         if($result1 = mysqli_query($conn, $update_sql1) && $result2 = mysqli_query($conn, $update_sql2)){
             echo "<script>alert('회원 정보 수정에 성공하셨습니다!')</script>";
-            echo "<script>window.location.href='board.php';</script>";
+            echo "<script>window.location.href='mainpage.php';</script>";
         }
 
     } else{
