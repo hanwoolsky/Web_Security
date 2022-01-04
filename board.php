@@ -1,4 +1,10 @@
 <?php
+    session_start();
+    if (!isset($_SESSION['id'])){
+        echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
+    }
+?>
+<?php
     function board(){
         if(isset($_POST['board_result'])){
             $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');

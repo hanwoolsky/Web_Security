@@ -1,13 +1,17 @@
 <?php
     session_start();
-    $id = $_SESSION['id'];
+    if (isset($_SESSION['id'])){
+        $id = $_SESSION['id'];
 
-    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-    $sql = "SELECT birthday FROM personal_info where login_id = '$id'";
-    $row = mysqli_fetch_array(mysqli_query($conn, $sql));
-    $birthday = $row[0];
+        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+        $sql = "SELECT birthday FROM personal_info where login_id = '$id'";
+        $row = mysqli_fetch_array(mysqli_query($conn, $sql));
+        $birthday = $row[0];
 
-    mysqli_close($conn);
+        mysqli_close($conn);
+    }else{
+        echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
