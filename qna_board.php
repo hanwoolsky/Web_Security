@@ -1,12 +1,13 @@
 <?php
     function myqna(){
+        include 'conn.php';
+        $conn = new mysqli($Server, $ID, $PW, $DBname);
         $username = $_SESSION['id'];
-        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
         $sql = "SELECT * from qna where username = '$username' order by id desc;";
         $result = mysqli_query($conn, $sql);
         if(mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_array($result)){
-                echo "<tr><td>".$row['id']."</td><td><a href = \"qna_check.php/?id=".$row['id']."\">".$row['title']."</a></td></tr>";
+                echo "<tr><td>".$row['id']."</td><td><a href = \"qna_check.php/?id=".$row['id']."\">".htmlentities($row['title'])."</a></td></tr>";
             }
         } else{
             echo "<script>alert('존재하지 않습니다.')</script>";
@@ -65,14 +66,15 @@
                                 myqna();
                             }
                             else{
-                                $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+                                include 'conn.php';
+                                $conn = new mysqli($Server, $ID, $PW, $DBname);
                                 $sql = "SELECT * from qna order by id desc limit $start_data, 10;";
                                 $result = mysqli_query($conn, $sql);
                                 while($row = mysqli_fetch_array($result)){
                     ?>
                                     <tr>
                                         <td><?=$row['id']?></td>
-                                        <td><a href = 'qna_check.php?id=<?=$row['id']?>'><?=$row['title']?></a></td>
+                                        <td><a href = 'qna_check.php?id=<?=$row['id']?>'><?=htmlentities($row['title'])?></a></td>
                                     </tr>
                     <?php
                                 }
@@ -86,7 +88,8 @@
         <button class = "writeBtn" onclick = "location.href = 'qna.php'">문의하기</button>
         <div class = "paginations">
             <?php
-                $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+                include 'conn.php';
+                $conn = new mysqli($Server, $ID, $PW, $DBname);
                 $sql = "SELECT * from qna order by id desc;";
                 $result = mysqli_query($conn, $sql);
 

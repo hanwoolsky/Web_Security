@@ -1,16 +1,20 @@
 <?php
+    include 'conn.php';
+    $conn = new mysqli($Server, $ID, $PW, $DBname);
     if(isset($_GET['id'])){
         $id = $_GET['id'];
-        $sql = "SELECT * FROM board where id = {$id}";
+        $sql = "SELECT * FROM board where id = ?";
+        $pre_state = $conn->prepare($sql);
+        $pre_state->bind_param("s", $id);
 
-        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-        $result = mysqli_query($conn, $sql);
+        $pre_state->execute();
+        $result = $pre_state->get_result();
+        $row = $result->fetch_assoc();
 
-        $row = mysqli_fetch_array($result);
         $title = $row['title'];
         $content = $row['content'];
-        mysqli_close($conn);
     }
+    mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">

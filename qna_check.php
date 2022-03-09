@@ -5,16 +5,20 @@
     } else{
         $login_user = "anonymous";
     }
-    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+    include 'conn.php';
+    $conn = new mysqli($Server, $ID, $PW, $DBname);
     if(isset($_GET['id'])){
+        $sql = "SELECT * FROM qna where id = ?";
+        $pre_state = $conn->prepare($sql);
+        $pre_state->bind_param("s", $id);
         $id = $_GET['id'];
-        $sql = "SELECT * FROM qna where id = {$id}";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result);
-        $username = $row['username'];
+        $pre_state->execute();
 
-        mysqli_close($conn);
+        $result = $pre_state->get_result();
+        $row = $result->fetch_assoc();
+        $username = $row['username'];
     }
+    mysqli_close($conn);
     if ($login_user == "admin" || $login_user == $username){
         echo "<script>window.location.href='qna_read.php?id=$id';</script>";
     }
@@ -38,17 +42,22 @@
             <?php
                 if(array_key_exists('pw_check', $_POST)){
                     $pw = $_POST['anonypw'];
+                    $_SESSION['qnapw'] = $pw;
+                    include 'conn.php';
+                    $conn = new mysqli($Server, $ID, $PW, $DBname);
                     if(isset($_GET['id'])){
-                        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
                         $id = mysqli_real_escape_string($conn, $_GET['id']);
 
-                        $sql = "SELECT * FROM qna where id = {$id}";
+                        $sql = "SELECT * FROM qna where id = ?";
+                        $pre_state = $conn->prepare($sql);
+                        $pre_state->bind_param("s", $id);
 
-                        $result = mysqli_query($conn, $sql);
-                        $row = mysqli_fetch_array($result);
+                        $pre_state->execute();
+                        $result = $pre_state->get_result();
+                        $row = $result->fetch_assoc();
                         $password = $row['password'];
-                        mysqli_close($conn);
                     }
+                    mysqli_close($conn);
 
                     if($pw == $password){
                         echo "<script>window.location.href='qna_read.php?id=$id';</script>";

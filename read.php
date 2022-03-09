@@ -1,5 +1,6 @@
 <?php
-    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+    include 'conn.php';
+    $conn = new mysqli($Server, $ID, $PW, $DBname);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,12 +15,19 @@
     <div class = "column">
         <div class = "posting">
             <?php
-                if(isset($_GET['id'])){
-                    $id = mysqli_real_escape_string($conn, $_GET['id']);
-                    $sql = "SELECT * FROM board where id = {$id}";
-                    $result = mysqli_query($conn, $sql);
+                session_start();
+                if(isset($_GET['id']) && isset($_SESSION['id'])){
+                    $sql = "SELECT * FROM board where id = ?";
 
-                    $row = mysqli_fetch_array($result);
+                    $pre_state = $conn->prepare($sql);
+                    $pre_state->bind_param("s", $id);
+
+                    $id = $_GET['id'];
+                    $pre_state->execute();
+
+                    $result = $pre_state->get_result();
+
+                    $row = $result->fetch_assoc();
                     $username = $row['username'];
                     $title = $row['title'];
                     $content = $row['content'];
@@ -27,42 +35,52 @@
                     $file_name = $row['file'];
 
                     if(isset($_GET['view'])){
-                        $view_sql = "UPDATE board set views = views + 1 where id = {$id}";
-                        mysqli_query($conn, $view_sql);
+                        $view_sql = "UPDATE board set views = views + 1 where id =  ?";
+                        $pre_state = $conn->prepare($view_sql);
+                        $pre_state->bind_param("s", $id);
+                        $pre_state->execute();
                     }
 
-                    session_start();
                     $login_user = $_SESSION['id'];
                     $likes_sql = "SELECT likes FROM board where username = '$login_user'";
 
                     $likes_row = mysqli_fetch_array(mysqli_query($conn, $likes_sql));
-                    $likes = $likes_row[0];
+                    if($likes_row){
+                        $likes = $likes_row[0];
+                    }else{
+                        $likes = "0"*1000;
+                    }
                     
                     mysqli_close($conn);
+                }else{
+                    echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
                 }
             ?>
-            <div class = "posting_title"><?=$title?></div>
-            <div class = "posting_contents"><?=$content?></div>
+            <div class = "posting_title"><?=htmlentities($title)?></div>
+            <div class = "posting_contents"><?=htmlentities($content)?></div>
             <?php
-                if ($likes[$id-1] == 1){
-            ?>      <div class = "likes">
-                        <a href = 'likes.php?id=<?=$id?>&heart=0&user=<?=$login_user?>'><i class="fas fa-heart red fa-2x"></i></a>
-                        <span class = "likes_count"><?=$likes_count?></span>
-                    </div>
+                if (strlen($likes) >= $id){
+                    if ($likes[$id-1] == 1){
+            ?>      
+                        <div class = "likes">
+                            <a href = 'likes.php?id=<?=$id?>&heart=0&user=<?=$login_user?>'><i class="fas fa-heart red fa-2x"></i></a>
+                            <span class = "likes_count"><?=$likes_count?></span>
+                        </div>
             <?php
-                } else{
-            ?>      <div class = "likes">
-                        <a href = 'likes.php?id=<?=$row['id']?>&heart=1&user=<?=$login_user?>'><i class="far fa-heart white fa-2x"></i></a>
-                        <span class = "likes_count"><?=$likes_count?></span>
-                    </div>
+                    } else{
+            ?>      
+                        <div class = "likes">
+                            <a href = 'likes.php?id=<?=$row['id']?>&heart=1&user=<?=$login_user?>'><i class="far fa-heart white fa-2x"></i></a>
+                            <span class = "likes_count"><?=$likes_count?></span>
+                        </div>
             <?php
+                    }
                 }
-                $path = "./files/$username/$file_name";
-                if(file_exists($path)){
+                if($file_name != NULL){
             ?>
                     <div class = "file_links">
-                        <a href="http://localhost/web_dev/files/<?=$username?>/<?=$file_name?>" target="_blank">View</a>
-                        <a href="./files/<?=$username?>/<?=$file_name?>" download = "<?=$file_name?>">Download</a>
+                        <a href="file_view.php?id=<?=$id?>" target="_blank">View</a>
+                        <a href="file_download.php?id=<?=$id?>">Download</a>
                         <a href="file_delete.php?id=<?=$id?>">Delete</a>
                     </div>
             <?php

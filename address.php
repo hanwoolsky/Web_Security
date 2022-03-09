@@ -1,29 +1,30 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['id'])){
-        echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
-    }
-?>
-<?php
     function print_result(){
+        include 'conn.php';
+        $conn = new mysqli($Server, $ID, $PW, $DBname);
         if(isset($_POST['addr']) && $_POST['addr'] != NULL){
-            $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-            $addrs = mysqli_real_escape_string($conn, $_POST['addr']);
+            $sql = "SELECT * FROM address where road_name like ?";
 
-            $sql = "SELECT * FROM address where road_name like '%$addrs%';";
-            $result = mysqli_query($conn, $sql);
+            $pre_state = $conn->prepare($sql);
+            $pre_state->bind_param("s", $addrs);
+
+            $addrs = "%".$_POST['addr']."%";
+            $pre_state->execute();
+
+            $result = $pre_state->get_result();
             
-            if(mysqli_num_rows($result) > 0){
-                while($row = mysqli_fetch_array($result)){
-                    echo "<tr><td>".$row['road_name']."</td><td>".$row['zipcode']."</td></tr>";
+            if($result){
+                while($row = $result->fetch_array()){
+                    echo "<tr><td>".$row[0]."</td><td>".$row[1]."</td></tr>";
                 }
             } else{
                 echo "<script>alert('주소 없음.')</script>";
             }
-            mysqli_close($conn);
+            $pre_state->close();
         } else{
             echo "<tr><td>검색해주세요.</td><td>0</td></tr>";
         }
+        mysqli_close($conn);
     }
 ?>
 <!DOCTYPE html>
@@ -53,7 +54,12 @@
                 </thead>
                 <tbody>
                     <?php
-                        print_result();
+                        session_start();
+                        if (isset($_SESSION['id'])){
+                            print_result();
+                        }else{
+                            echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
+                        }
                     ?>
                 </tbody>
             </table>

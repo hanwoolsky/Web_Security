@@ -1,33 +1,29 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['id'])){
-        echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
-    }
-?>
-<?php
     function board(){
+        include 'conn.php';
+        $conn = mysqli_connect($Server, $ID, $PW, $DBname);
         if(isset($_POST['board_result'])){
-            $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
             $find = mysqli_real_escape_string($conn, $_POST['board_result']);
             $column = mysqli_real_escape_string($conn, $_POST['option_val']);
             $start_date = mysqli_real_escape_string($conn, $_POST['date_from']);
             $end_date = mysqli_real_escape_string($conn, $_POST['date_to']);
-
-            if($start_date && $end_date){
-                $sql = "SELECT * FROM board where $column like '%$find%' and date between '$start_date' and '$end_date';";
-            }
-            else $sql = "SELECT * FROM board where $column like '%$find%';";
-            $result = mysqli_query($conn, $sql);
-
-            if(mysqli_num_rows($result) > 0){
-                while($row = mysqli_fetch_array($result)){
-                    echo "<tr><td>".$row['username']."</td><td><a href = \"read.php/?id=".$row['id']."\"&view=1>".$row['title']."</a></td><td>".$row['views']."</td><td>".$row['date']."</td></tr>";
+           
+            $option_arr = array("username", "title", "content");
+            if(in_array($column, $option_arr)){
+                if($start_date && $end_date){
+                    $sql = "SELECT * FROM board where $column like '%$find%' and date between '$start_date' and '$end_date';";
                 }
-            } else{
-                echo "<script>alert('존재하지 않습니다.')</script>";
+                else $sql = "SELECT * FROM board where $column like '%$find%';";
+                $result = mysqli_query($conn, $sql);
+    
+                if(mysqli_num_rows($result) > 0){
+                    while($row = mysqli_fetch_array($result)){
+                        echo "<tr><td>".htmlentities($row['username'])."</td><td><a href = \"read.php/?id=".htmlentities($row['id'])."\"&view=1>".htmlentities($row['title'])."</a></td><td>".htmlentities($row['views'])."</td><td>".htmlentities($row['date'])."</td></tr>";
+                    }
+                } 
             }
-            mysqli_close($conn);
         }
+        mysqli_close($conn);
     }
 ?>
 <!DOCTYPE html>
@@ -70,7 +66,13 @@
                             printpage($_POST['page']);
                         }
                         else{
-                            printpage(1);
+                            session_start();
+                            if (!isset($_SESSION['id'])){
+                                echo "<script>alert('잘못된 접근입니다.');</script>";
+                                echo "<script>window.location.href='index.php';</script>";
+                            }else{
+                                printpage(1);
+                            }
                         }
                         function printpage(int $page){
                             $start_data = ($page - 1) * 10;
@@ -78,15 +80,16 @@
                                 board();
                             }
                             else{
-                                $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+                                include 'conn.php';
+                                $conn = mysqli_connect($Server, $ID, $PW, $DBname);
                                 $sql = "SELECT * FROM board limit $start_data, 10;";
                                 $result = mysqli_query($conn, $sql);
                                 while($row = mysqli_fetch_array($result)){
                     ?>
                                     <tr>
-                                        <td><?=$row['username']?></td>
-                                        <td><a href = 'read.php?id=<?=$row['id']?>&view=1'><?=$row['title']?></a></td>
-                                        <td><?=$row['views']?></td>
+                                        <td><?=htmlentities($row['username'])?></td>
+                                        <td><a href = 'read.php?id=<?=$row['id']?>&view=1'><?=htmlentities($row['title'])?></a></td>
+                                        <td><?=htmlentities($row['views'])?></td>
                                         <td><?=$row['date']?></td>
                                     </tr>
                     <?php
@@ -101,7 +104,8 @@
         <button class = "writeBtn" onclick = "location.href = 'write.php'">글쓰기</button>
         <div class = "paginations">
             <?php
-                $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
+                include 'conn.php';
+                $conn = mysqli_connect($Server, $ID, $PW, $DBname);
                 $sql = "SELECT * FROM board;";
                 $result = mysqli_query($conn, $sql);
 

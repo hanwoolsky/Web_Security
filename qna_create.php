@@ -1,6 +1,7 @@
 <?php
+    include 'conn.php';
+    $conn = new mysqli($Server, $ID, $PW, $DBname);
     if(isset($_POST['create_title']) && isset($_POST['create_body']) && isset($_POST['create_title']) != NULL && isset($_POST['create_body']) != NULL){
-        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
         session_start();
         $title = mysqli_real_escape_string($conn, $_POST['create_title']);
         $content = mysqli_real_escape_string($conn, $_POST['create_body']);
@@ -22,6 +23,6 @@
         } else{
             echo mysqli_error($conn);
         }
-        mysqli_close($conn);
     }
+    mysqli_close($conn);
 ?>

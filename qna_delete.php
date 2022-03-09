@@ -1,13 +1,29 @@
 <?php
-    if(isset($_GET['id'])){
-        $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-        $id = mysqli_real_escape_string($conn, $_GET['id']);
-        $sql = "DELETE FROM qna where id = {$id}";
+    include 'conn.php';
+    $conn = new mysqli($Server, $ID, $PW, $DBname);
+    session_start();
+    if(isset($_SESSION['qnadelete'])){
+        if(isset($_GET['id'])){
+            $sql = "SELECT * FROM qna where id = ?";
+            $pre_state = $conn->prepare($sql);
+            $pre_state->bind_param("s", $id);
 
-        if($result = mysqli_query($conn, $sql)){
-            echo "<script>alert('글이 삭제되었습니다!')</script>";
-            echo "<script>window.location.href='qna_board.php';</script>";
+            $id = $_GET['id'];
+            $pre_state->execute();
+
+            $result = $pre_state->get_result()->num_rows;
+            if($result){
+                $sql2 = "DELETE FROM qna where id = ?";
+                $pre_state = $conn->prepare($sql2);
+                $pre_state->bind_param("s", $id);
+                $pre_state->execute();
+                echo "<script>alert('글이 삭제되었습니다!')</script>";
+                echo "<script>window.location.href='qna_board.php';</script>";
+            }
         }
-        mysqli_close($conn);
+        unset($_SESSION['qnadelete']);
+    }else{
+        echo "<script>alert('잘못된 접근입니다.'); history.back();</script>";
     }
+    mysqli_close($conn);
 ?>

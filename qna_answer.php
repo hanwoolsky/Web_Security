@@ -11,18 +11,23 @@
     <div class = "column">
         <div class = "posting">
             <?php
+                include 'conn.php';
+                $conn = new mysqli($Server, $ID, $PW, $DBname);
+                session_start();
                 if(isset($_GET['id'])){
-                    $conn = mysqli_connect('localhost', 'hacker', 'Hacker1234^', 'webpage');
-                    $id = mysqli_real_escape_string($conn, $_GET['id']);
-                    $sql = "SELECT * FROM qna where id = {$id}";
-                    $result = mysqli_query($conn, $sql);
+                    $sql = "SELECT * FROM qna where id = ?";
+                    $pre_state = $conn->prepare($sql);
+                    $pre_state->bind_param("s", $id);
 
-                    $row = mysqli_fetch_array($result);
+                    $id = $_GET['id'];
+                    $pre_state->execute();
+
+                    $result = $pre_state->get_result();
+                    $row = $result->fetch_assoc();
                     $title = $row['title'];
                     $content = $row['content'];
-                    
-                    mysqli_close($conn);
                 }
+                mysqli_close($conn);
             ?>
             <div class = "posting_title"><?=$title?></div>
             <div class = "posting_contents"><?=$content?></div>
