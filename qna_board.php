@@ -35,9 +35,9 @@
             }
             if($username){
                 echo "
-                    <div class = ''>
-                        <form method = 'post'>
-                            <p>나의 문의</p>
+                    <div class = 'qna'>
+                        <form class = 'qna_form' method = 'post'>
+                            <h2 class = 'qna_text'>나의 문의</h2>
                             <input type = 'submit' name = 'qna_search' value = '🔍' id = 'search_btn' />
                         </form>
                     </div>
