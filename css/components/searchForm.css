@@ -62,3 +62,22 @@ select{
     text-align: center;
     font-size: 17px;
 }
+
+.qna_text{
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+}
+.qna_form{
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+}
+#search_btn{
+    background-color: #1E8BF0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
