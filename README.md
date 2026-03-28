@@ -59,6 +59,12 @@
 | 인증/인가 미흡 + 세션 종료 미흡 | A07:2021 | [writeup](2_exploits/auth-bypass/writeup.md) |
 | Likes 파라미터 조작 (IDOR) | A01:2021 | [writeup](2_exploits/likes-idor/writeup.md) |
 
+
+| 연구 보고서 | 내용 |
+|---|---|
+| [SQL Injection 연구](2_exploits/sql-injection/SQL_Injection_Attack_Research.pdf) | 인증우회 5패턴, Union / Error-based / Blind SQLi 전 유형 |
+| [XSS 공격 연구](2_exploits/xss/XSS_Attack_Research.pdf) | Stored / Reflected / DOM XSS, 세션탈취 · 키로거 · HTML Injection |
+
 → [`2_exploits/`](2_exploits/)
 
 ---
@@ -93,13 +99,6 @@
 | [커뮤니티 D](4_pentest-reports/Pentest_Report_CommunityD.pdf) | normaltic.com:5002 | 2022.02.04 ~ 02.08 | **12개** |
 
 → [`4_pentest-reports/`](4_pentest-reports/)
-
-| 연구 보고서 | 내용 |
-|---|---|
-| [SQL Injection 연구](2_exploits/sql-injection/SQL_Injection_Attack_Research.pdf) | 인증우회 5패턴, Union / Error-based / Blind SQLi 전 유형 |
-| [XSS 공격 연구](2_exploits/xss/XSS_Attack_Research.pdf) | Stored / Reflected / DOM XSS, 세션탈취 · 키로거 · HTML Injection |
-
-→ [`2_exploits/`](2_exploits/)
 
 ---
 
