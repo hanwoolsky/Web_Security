@@ -1,0 +1,35 @@
+.likes{
+    display: flex;
+    align-items: center;
+    margin-left: -630px;
+    margin-top: 10px;
+}
+.red{
+    color: red;
+}
+.white{
+    color: white;
+}
+.likes_count{
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+@keyframes heartbeatAnimation {
+    0%{
+        color: white;
+        transform: none;
+    }
+    50%{
+        color: red;
+        transform: scale(3);
+    }
+    100%{
+        color: white;
+        transform: none;
+    }
+}
+.open-post__heart-count:hover i{
+    will-change: transform;
+    animation: heartbeatAnimation 2s linear infinite;
+}
