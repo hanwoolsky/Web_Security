@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,6 @@
 </head>
 <body>
     <?php
-        session_start();
         if(isset($_GET['session'])){
             session_destroy();
             echo "<script>window.location.href='index.php';</script>";

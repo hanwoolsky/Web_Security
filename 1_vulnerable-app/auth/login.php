@@ -3,8 +3,8 @@
 
     if(isset($_POST['id']) && isset($_POST['pw'])){
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
-        $username = mysqli_real_escape_string($conn, $_POST['id']);
-        $password = mysqli_real_escape_string($conn, $_POST['pw']);
+        $username = $_POST['id'];
+        $password = $_POST['pw'];
 
         $sql = "SELECT * FROM login where login_id = '$username' and login_pw = '$password';";
         

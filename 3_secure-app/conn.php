@@ -1,5 +1,5 @@
 <?php
-    $Server = "localhost";
+    $Server = "db";
     $ID = "hacker";
     $PW = "Hacker1234^";
     $DBname = "webpage";

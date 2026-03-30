@@ -2,8 +2,8 @@
     include '../conn.php';
     if(isset($_POST['signupid']) && isset($_POST['signuppw'])){
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
-        $username = mysqli_real_escape_string($conn, $_POST['signupid']);
-        $password = mysqli_real_escape_string($conn, $_POST['signuppw']);
+        $username = $_POST['signupid'];
+        $password = $_POST['signuppw'];
 
         if ($username != NULL && $password != NULL){
             $sql = "INSERT INTO login (login_id, login_pw) VALUES ('$username', '$password');";

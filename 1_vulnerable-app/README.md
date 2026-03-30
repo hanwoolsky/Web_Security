@@ -10,64 +10,21 @@
 
 ## 포함된 취약점 (의도적)
 
-| 파일 | 취약점 | 설명 |
-|---|---|---|
-| `login.php` | SQL Injection | 사용자 입력이 쿼리에 직접 삽입됨 |
-| `signup.php` | SQL Injection | 회원가입 시 입력값 미검증 |
-| `board_create.php` | Stored XSS | 게시글 내용 그대로 DB 저장 |
-| `read.php` | Stored XSS | 저장된 스크립트 그대로 출력 |
-| `board.php` | CSRF | 토큰 없이 상태 변경 요청 처리 |
-| `file_download.php` | Path Traversal | 파일 경로 검증 없음 |
-| `write.php` | File Upload | 업로드 확장자 무제한 허용 |
-| `read.php` | 불충분한 인가 | 다른 사용자 게시물 접근 가능 |
-| `mypage.php` | 불충분한 인증 | 세션 검증 미흡 |
-| `cookie.php` | 세션 관리 미흡 | 세션 만료 처리 없음 |
-
-## 앱 구성
-
-```
-index.php           메인 페이지
-login.html          로그인 폼
-login.php           로그인 처리 (SQL Injection 취약)
-signup.html         회원가입 폼
-signup.php          회원가입 처리
-board.php           게시판 목록
-board_create.php    게시글 작성 (XSS 취약)
-board_update.php    게시글 수정
-board_delete.php    게시글 삭제
-read.php            게시글 읽기 (XSS 출력)
-write.php           파일 업로드 (확장자 무제한)
-file_view.php       파일 목록
-file_download.php   파일 다운로드 (Path Traversal 취약)
-file_delete.php     파일 삭제
-qna.php             QnA 게시판
-qna_create.php      QnA 작성
-qna_read.php        QnA 읽기
-qna_answer.php      답변 작성
-qna_comment.php     댓글
-qna_check.php       비밀번호 확인
-qna_board.php       QnA 목록
-qna_delete.php      QnA 삭제
-mypage.php          마이페이지 (인증 취약)
-mypage_update.php   정보 수정
-address.php         주소 검색
-cookie.php          쿠키/세션 처리
-likes.php           좋아요
-conn.php            DB 연결 설정
-db.sql              DB 스키마
-keylogger.html      XSS 키로거 PoC
-keylogger.php       키로거 수신 서버
-```
+| 취약점 | OWASP | 파일 | 설명 |
+|---|---|---|---|
+| SQL Injection | A03:2021 | `auth/login.php` | 입력값이 쿼리에 직접 삽입됨 |
+| SQL Injection | A03:2021 | `mypage/mypage_update.php` | 정보수정 쿼리 전체 미검증 |
+| XSS (Stored) | A03:2021 | `board/board_create.php` | 게시글 내용 그대로 DB 저장 |
+| CSRF | A01:2021 | `mypage/mypage_update.php` | 토큰 없이 정보수정 요청 처리 |
+| File Upload | A04:2021 | `board/board_create.php` | 확장자 검증 없이 파일시스템 저장 |
+| 불충분한 인증 | A07:2021 | `board/read.php` | 세션 없이 URL 직접 접근 가능 |
+| 불충분한 인가 | A01:2021 | `board/board_update.php` | 작성자 검증 없이 타인 게시물 수정 가능 |
+| IDOR | A01:2021 | `board/likes.php` | GET 파라미터로 타인 좋아요 조작 가능 |
+| 세션 종료 미흡 | A07:2021 | `index.php` | 로그아웃 시 세션 쿠키 미만료 |
 
 ## 실행 방법
 
-```bash
-# MySQL DB 생성
-mysql -u root -p < db.sql
-
-# conn.php에서 DB 접속 정보 수정
-# Apache/Nginx + PHP 환경에서 실행
-```
+루트 디렉토리에서 → [README.md 실행 방법 참고](../README.md#실행-방법)
 
 ## 다음 단계
 

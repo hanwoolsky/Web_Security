@@ -3,7 +3,7 @@
         include '../conn.php';
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
         if(isset($_POST['addr']) && $_POST['addr'] != NULL){
-            $addrs = mysqli_real_escape_string($conn, $_POST['addr']);
+            $addrs = $_POST['addr'];
 
             $sql = "SELECT * FROM address where road_name like '%$addrs%';";
             $result = mysqli_query($conn, $sql);
@@ -21,6 +21,7 @@
         }
     }
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +49,6 @@
                 </thead>
                 <tbody>
                     <?php
-                        session_start();
                         if (isset($_SESSION['id'])){
                             print_result();
                         }else{

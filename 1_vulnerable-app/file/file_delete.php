@@ -2,7 +2,7 @@
     include '../conn.php';
     if(isset($_GET['id'])){
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
-        $id = mysqli_real_escape_string($conn, $_GET['id']);
+        $id = $_POST['id'];
         
         $sql = "SELECT username, file from board where id = '$id';";
         $sql2 = "UPDATE board SET file = 'NULL' where id = '$id';";

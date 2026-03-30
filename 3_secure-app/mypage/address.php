@@ -27,6 +27,7 @@
         mysqli_close($conn);
     }
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +55,6 @@
                 </thead>
                 <tbody>
                     <?php
-                        session_start();
                         if (isset($_SESSION['id'])){
                             print_result();
                         }else{

@@ -2,6 +2,7 @@
     include '../conn.php';
     $conn = new mysqli($Server, $ID, $PW, $DBname);
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,6 @@
     <div class = "column">
         <div class = "posting">
             <?php
-                session_start();
                 if(isset($_GET['id']) && isset($_SESSION['id'])){
                     $sql = "SELECT * FROM board where id = ?";
 

@@ -3,10 +3,10 @@
         include '../conn.php';
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
         if(isset($_POST['board_result'])){
-            $find = mysqli_real_escape_string($conn, $_POST['board_result']);
-            $column = mysqli_real_escape_string($conn, $_POST['option_val']);
-            $start_date = mysqli_real_escape_string($conn, $_POST['date_from']);
-            $end_date = mysqli_real_escape_string($conn, $_POST['date_to']);
+            $find = $_POST['board_result'];
+            $column = $_POST['option_val'];
+            $start_date = $_POST['date_from'];
+            $end_date = $_POST['date_to'];
 
             if($start_date && $end_date){
                 $sql = "SELECT * FROM board where $column like '%$find%' and date between '$start_date' and '$end_date';";
@@ -25,6 +25,7 @@
         }
     }
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

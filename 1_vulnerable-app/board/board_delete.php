@@ -4,7 +4,7 @@
         $conn = mysqli_connect($Server, $ID, $PW, $DBname);
         session_start();
         $user = $_SESSION['id'];
-        $id = mysqli_real_escape_string($conn, $_GET['id']);
+        $id = $_GET['id'];
         $sql = "DELETE FROM board where id = {$id} and username='$user'";
 
         if($result = mysqli_query($conn, $sql)){

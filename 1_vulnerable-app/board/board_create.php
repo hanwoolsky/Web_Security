@@ -1,9 +1,10 @@
 <?php
     include '../conn.php';
     $conn = mysqli_connect($Server, $ID, $PW, $DBname);
+    session_start();
+
     if(isset($_POST['create_title']) && isset($_POST['create_body']) && isset($_POST['create_title']) != NULL && isset($_POST['create_body']) != NULL){
-        session_start();
-        $title = mysqli_real_escape_string($conn, $_POST['create_title']);
+        $title   = mysqli_real_escape_string($conn, $_POST['create_title']);
         $content = mysqli_real_escape_string($conn, $_POST['create_body']);
 
         if($_SESSION['id']) $username = $_SESSION['id'];

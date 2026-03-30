@@ -2,20 +2,20 @@
     include '../conn.php';
     $conn = new mysqli($Server, $ID, $PW, $DBname);
     if(isset($_POST['current_pw'])){
-        $cur_pw = mysqli_real_escape_string($conn, $_POST['current_pw']);
+        $cur_pw = $_POST['current_pw'];
         session_start();
         $id = $_SESSION['id'];
 
         $login_sql = "SELECT * FROM login where login_id = '$id' and login_pw = '$cur_pw';";
         if($result = mysqli_fetch_array(mysqli_query($conn, $login_sql))){
             if($_POST['id'] != NULL){
-                $new_id = mysqli_real_escape_string($conn, $_POST['id']);
+                $new_id = $_POST['id'];
             }else{
                 $new_id = $id;
             }
 
             if($_POST['birthday'] != NULL){
-                $new_birthday = mysqli_real_escape_string($conn, $_POST['birthday']);
+                $new_birthday = $_POST['birthday'];
             } else{
                 $sql = "SELECT birthday FROM personal_info where login_id = '$id'";
                 $row = mysqli_fetch_array(mysqli_query($conn, $sql));
@@ -23,7 +23,7 @@
             }
 
             if($_POST['pw'] != NULL){
-                $new_pw = mysqli_real_escape_string($conn, $_POST['pw']);
+                $new_pw = $_POST['pw'];
             }else{
                 $sql = "SELECT login_pw FROM login where login_id = '$id'";
                 $row = mysqli_fetch_array(mysqli_query($conn, $sql));

@@ -2,6 +2,7 @@
     include '../conn.php';
     $conn = new mysqli($Server, $ID, $PW, $DBname);
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
         <div class = "posting">
             <?php
                 if(isset($_GET['id'])){
-                    $id = mysqli_real_escape_string($conn, $_GET['id']);
+                    $id = $_GET['id'];
                     $sql = "SELECT * FROM board where id = {$id}";
                     $result = mysqli_query($conn, $sql);
 
@@ -32,7 +33,6 @@
                         mysqli_query($conn, $view_sql);
                     }
 
-                    session_start();
                     $login_user = $_SESSION['id'];
                     $likes_sql = "SELECT likes FROM board where username = '$login_user'";
 

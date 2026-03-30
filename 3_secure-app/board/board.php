@@ -26,6 +26,7 @@
         mysqli_close($conn);
     }
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

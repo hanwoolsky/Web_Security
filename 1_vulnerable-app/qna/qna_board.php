@@ -15,6 +15,7 @@
         mysqli_close($conn);
     }
 ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,6 @@
 <body>
     <div class = "column">
         <?php
-            session_start();
             if(isset($_SESSION['id'])){
                 $username = $_SESSION['id'];
             }else{

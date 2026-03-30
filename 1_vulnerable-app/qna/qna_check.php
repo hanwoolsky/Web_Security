@@ -42,7 +42,7 @@
                     if(isset($_GET['id'])){
                         include '../conn.php';
                         $conn = new mysqli($Server, $ID, $PW, $DBname);
-                        $id = mysqli_real_escape_string($conn, $_GET['id']);
+                        $id = $_GET['id'];
 
                         $sql = "SELECT * FROM qna where id = {$id}";
 

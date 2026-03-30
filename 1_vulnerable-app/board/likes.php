@@ -2,9 +2,9 @@
     include '../conn.php';
     $conn = new mysqli($Server, $ID, $PW, $DBname);
     if(isset($_GET['id']) && isset($_GET['heart']) && isset($_GET['user'])){
-        $id = mysqli_real_escape_string($conn, $_GET['id']);
-        $heart = mysqli_real_escape_string($conn, $_GET['heart']);
-        $user = mysqli_real_escape_string($conn, $_GET['user']);
+        $id = $_GET['id'];
+        $heart = $_GET['heart'];
+        $user = $_GET['user'];
 
         $sql = "SELECT likes FROM board where username = '$user'";
         $likes_row = mysqli_fetch_array(mysqli_query($conn, $sql));

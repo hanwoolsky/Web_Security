@@ -104,7 +104,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `hashing` AFTER INSERT ON `login` FOR EACH ROW begin
+/*!50003 CREATE*/ /*!50003 TRIGGER `hashing` AFTER INSERT ON `login` FOR EACH ROW begin
 insert into safe_login values(new.login_id, sha2(new.login_pw, 256));
 end */;;
 DELIMITER ;

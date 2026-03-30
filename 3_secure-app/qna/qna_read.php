@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
             <?php
                 include '../conn.php';
                 $conn = new mysqli($Server, $ID, $PW, $DBname);
-                session_start();
+
                 if(isset($_GET['id'])){
                     $check = 1;
                     if(isset($_SESSION['id']) && $_SESSION['id'] == "admin") {
