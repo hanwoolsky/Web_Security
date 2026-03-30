@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+
+  # vulnerable-app (port 8081)
+  vulnerable-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vulnerable-app
+    ports:
+      - "8081:80"
+    volumes:
+      - ./1_vulnerable-app:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - web-net
+
+  # secure-app (port 8082)
+  secure-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: secure-app
+    ports:
+      - "8082:80"
+    volumes:
+      - ./3_secure-app:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - web-net
+
+  # DB (Share by both app)
+  db:
+    image: mysql:8.0
+    container_name: web-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: webpage
+      MYSQL_USER: hacker
+      MYSQL_PASSWORD: "Hacker1234^"
+    volumes:
+      - ./1_vulnerable-app/db.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot1234"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - web-net
+
+volumes:
+  db-data:
+
+networks:
+  web-net:
+    driver: bridge
