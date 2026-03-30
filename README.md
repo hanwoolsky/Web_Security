@@ -20,7 +20,6 @@
 ## 실행 방법
 
 Docker가 설치되어 있으면 명령어 하나로 바로 실행할 수 있습니다.
-`
 ```bash
 $ docker-compose up -d
 ```
